@@ -46,3 +46,16 @@ The CA is the entity that signs and validates the certificates for both the serv
 #### 1.1 Generate the CA Private Key
 ```bash
 openssl genrsa -out ca.key 4096
+```
+> [!CAUTION]
+> This creates the CA private key (ca.key), which will be used to sign the other certificates. Keep this file secret!
+
+#### 1.2 Generate the CA Certificate (Self-signed)
+```bash
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 365 \
+  -out ca.crt \
+  -subj "/C=BR/ST=DF/L=Brasilia/O=MyCA/CN=MyCA"
+```
+> [!CAUTION]
+> This produces the CA certificate (ca.crt) valid for 1 year, used by both the server and the client to verify certificate authenticity.
+
