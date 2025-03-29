@@ -86,7 +86,7 @@ openssl req -new -key server.key -out server.csr \
 openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key \
   -CAcreateserial -out server.crt -days 365 -sha256
 ```
-> [!INFO]
+> [!NOTE]
 > After these commands, you have:
 >
 > server.crt: The server certificate.
