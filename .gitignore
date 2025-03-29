@@ -1,0 +1,25 @@
+# .gitignore for mTLS Lab
+# Prevent sensitive files from being tracked
+
+# Ignore all private key files
+*.key
+
+# Optionally ignore certificate signing requests (if not needed in repo)
+*.csr
+
+# You can also ignore the entire certs folder if desired, but note that this may
+# remove non-sensitive files (like ca.crt, server.crt, client.crt) you might want to track.
+# certs/
+
+# Node modules (if using Node.js)
+node_modules/
+
+# Docker override files (if any)
+docker-compose.override.yml
+
+# Log files
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
