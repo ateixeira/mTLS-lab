@@ -7,7 +7,8 @@ This lab is a practive, step by step, on how to configure a mutual authenticatio
  - cURL as a client
  - Docker/Docker compose for orchestration
 
- > **WARNING:** **Do not commit any private keys** (e.g., `ca.key`, `server.key`, `client.key`) to your repository. The `.gitignore` file is prepared to prevent accidental commits.
+ > [!WARNING] 
+ > **Do not commit any private keys** (e.g., `ca.key`, `server.key`, `client.key`) to your repository. The `.gitignore` file is prepared to prevent accidental commits.
 
  ---
 
@@ -56,6 +57,38 @@ openssl req -x509 -new -nodes -key ca.key -sha256 -days 365 \
   -out ca.crt \
   -subj "/C=BR/ST=DF/L=Brasilia/O=MyCA/CN=MyCA"
 ```
-> [!CAUTION]
+> [!IMPORTANT]
 > This produces the CA certificate (ca.crt) valid for 1 year, used by both the server and the client to verify certificate authenticity.
 
+--- 
+
+### 🔹 2. Gerar the server certificate (for NGINX)
+
+#### 2.1 Generate the Server Private Key
+```bash
+openssl genrsa -out server.key 4096
+```
+> [!CAUTION]
+> The file server.key must be kept secure and should not be committed to any repository.
+
+
+
+#### 2.2 Generate the Certificate Signing Request (CSR)
+```bash
+openssl req -new -key server.key -out server.csr \
+  -subj "/C=BR/ST=DF/L=Brasilia/O=MyServer/CN=localhost"
+
+```
+
+
+#### 2.3 Sign the CSR with the CA
+```bash
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key \
+  -CAcreateserial -out server.crt -days 365 -sha256
+```
+> [!INFO]
+> After these commands, you have:
+>
+> server.crt: The server certificate.
+>
+> server.key: The server’s private key (keep it secure).
